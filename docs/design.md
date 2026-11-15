@@ -152,10 +152,17 @@
 6. **鼓沒有音高**，所以放哪裡都合。
 
 ## 技術（和兄弟 APP 一樣，加上音樂的部分）
-- Flutter 3.47.8、Riverpod、flutter_svg、audioplayers、flutter_tts；存檔是一個 JSON 檔（`app/lib/core/store.dart`），存設定和「我的小曲子」。
+- Flutter 3.47.8、Riverpod、flutter_svg、flutter_soloud（聲音，見下面）、flutter_tts；存檔是一個 JSON 檔（`app/lib/core/store.dart`），存設定和「我的小曲子」。
 - 點和拖都用原始的手指事件（`Listener`），一碰就響，不用拖曳手勢。
 - 圖用 Python 畫 SVG（`design/art/`，霓虹舞台風一種），聲音用 numpy 合成成短短的 OGG／WAV。
-- **聲音的時間要準**：樂團要好幾個聲音同時放而且對拍。0.1 先用 audioplayers 的低延遲模式，每隻動物的兩小節先做成一個檔，由一個「指揮」計時器在每個小節開頭同時重放；如果手機上對不準（兩隻動物聽起來錯開），就換成 `flutter_soloud`（在 APP 裡自己混音，時間準到毫秒）。這是 0.1 最大的技術風險，第一週先做這個試。
+- **聲音的時間要準（對拍的做法，2026-11-15 決定）**：用 `flutter_soloud`（在 APP 裡自己混音的聲音引擎），不用 audioplayers。
+  - 為什麼：audioplayers 每個聲音是手機上一個獨立的播放器，什麼時候真的開始響、循環接頭有沒有空一下，每支手機都不一樣，幾隻動物一起唱很容易越來越錯開。soloud 把所有聲音在同一個地方一格一格（每個樣本）混好再送給喇叭，而且可以「排定」聲音在引擎時鐘的某一刻開始、某一刻變大聲，準到一個樣本，和 Dart 的計時器、手機忙不忙都無關。
+  - 做法：進動物樂團時，引擎讀出現在的時間 T0，把這個速度的每一隻動物的那一段（一樣長，見 `design/sounds/README.md`）**全部排在同一刻 T0 開始、一直循環，音量 0**。所以牠們永遠對齊，不會漂。
+  - 拖一隻上台：算出「下一個小節的開頭」（從 T0 起每小節一格，`MusicClock` 算，`test/rules_test.dart` 測），請引擎在那一刻把牠的音量淡入到 0.7（淡入 15 毫秒）。拖走或「噓」：在下一個小節開頭淡出。換速度：全部停掉，用另一個速度的檔重新排在新的 T0，在台上的那幾隻直接是 0.7。
+  - 敲敲樂、高低快慢、錄下來放出來的音是單音，按下去馬上響（低延遲模式）；錄下來放的時候也是用引擎時鐘一次排好整條磁帶，不靠計時器。
+  - 取捨：每次進樂團十個聲音都在跑（大多是靜音），多用一點點電和記憶體（16,000 Hz 的短檔，十個加起來不到 3 MB）；換來的是不管手機快慢都對拍。
+  - **要在真手機上確認的**：（1）點下去到聲音出來有沒有感覺慢（低延遲模式在大部分 Android 手機約 20～60 毫秒）；（2）十隻一起唱有沒有破音或太大聲；（3）APP 切到背景再回來，樂團還對不對拍；（4）便宜的手機會不會卡；（5）iPhone 靜音鍵和別的 APP 在放音樂時的行為。
+  - 測試：程式裡的聲音都經過 `Sounds` 這個介面，測試用會記下「放了什麼、在第幾拍」的版本，所以對拍的規則（下一小節在哪、錄音貼到哪一格）可以在電腦上測，真正的聲音只在手機上。
 - 資安和兄弟 APP 一樣：`flutter_deeplinking_enabled` 關掉、`overridePlatformDefaultLocation`、家長模式只能從家長關卡進去（`ParentPass`）、不要任何權限（**不要麥克風**，錄下來是錄點擊）。
 - GitHub 專案 `APP_Kids_Music`；APK 檔名 `little-wave-<版本>-arm64.apk`；簽章的環境變數 `LITTLE_WAVE_KEYSTORE`；Android 的 applicationId `com.yaufan.littlewave`；Flutter 專案名稱 `little_wave`。
 - 工作流程照迷宮小冒險（`app.yml`、`release.yml`、`cleanup.yml`），第一次放上 main 前要先問。

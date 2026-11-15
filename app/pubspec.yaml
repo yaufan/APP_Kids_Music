@@ -1,0 +1,46 @@
+name: little_wave
+description: "小小音波：2～5 歲的音樂玩具。"
+publish_to: 'none'
+
+# The version (also in lib/app/version.dart and CHANGELOG.md; test/version_test.dart checks they agree).
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.4.3
+  # One audio engine that mixes every sound itself, so the animals' loops stay
+  # on the beat together (docs/design.md 「技術」).
+  flutter_soloud: ^5.3.0
+  flutter_svg: ^2.3.0
+  flutter_tts: ^4.2.5
+  go_router: ^18.1.1
+  path: ^1.9.1
+  path_provider: ^2.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/sounds/
+    - assets/art/
+  fonts:
+    - family: Huninn
+      fonts:
+        - asset: assets/fonts/jf-openhuninn-2.1.ttf
+
+# The sounds are all WAV: the audio engine is built without the Ogg/Opus/FLAC
+# libraries (smaller app, nothing downloaded while building).
+hooks:
+  user_defines:
+    flutter_soloud:
+      no_xiph_libs: true

@@ -42,6 +42,12 @@
 
   規則和畫畫小鎮的 `CLAUDE.md` 一樣；那個帳號每月 2,000 分鐘是所有私有專案共用的，Mac 主機的 1 分鐘算 10 分鐘。
 
+## Git
+- **發布新版本、做成可以安裝的 APK、給下載 QR code**：照 skill `release-kids-app`（`.claude/skills/release-kids-app/SKILL.md`），兄弟 APP 共用同一份。
+- 在系統指定的 `claude/...` 工作分支上開發，commit 完就推這個分支。
+- commit 訊息用英文寫清楚改了什麼和為什麼，結尾加系統要求的署名行。不要寫模型名稱。
+- 不能 commit：金鑰、密碼、不公開的文件、`__pycache__`。
+
 ## 和畫畫小鎮共用的做法（開始寫程式時照著做）
 - Flutter 3.47.8、Riverpod、flutter_svg、flutter_soloud（不是 audioplayers，見上面）、flutter_tts。`flutter test` 第一次會在這台機器上編譯 soloud 的 C++（約 1 分鐘，要 clang）；pubspec 的 `hooks: user_defines: flutter_soloud: no_xiph_libs: true` 要留著（全部是 WAV，不用 Ogg/Opus）。存檔是一個 JSON 檔（`app/lib/core/store.dart`），沒有用 drift，所以本機跑測試**不用** sqlite 那段，直接 `flutter test`。
 - 觸控：用原始的手指事件（`Listener`），手指一碰就畫。不要用拖曳手勢，它要移動 36 點才開始，小朋友短短的一筆會不見。

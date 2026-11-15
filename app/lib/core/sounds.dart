@@ -137,7 +137,7 @@ class RecordingSounds implements Sounds {
     bandTempo = tempo;
     bandAvailable = available;
     this.singing = {...singing};
-    onChange?.call('band ${tempo.name} ${[for (final a in singing) a.name].join(',')}');
+    onChange?.call('bandstart ${tempo.name} ${[for (final a in singing) a.name].join(',')}');
   }
 
   @override
@@ -150,7 +150,7 @@ class RecordingSounds implements Sounds {
   void bandStop() {
     bandTempo = null;
     singing = {};
-    onChange?.call('band -');
+    onChange?.call('bandstop');
   }
 
   @override
@@ -159,13 +159,17 @@ class RecordingSounds implements Sounds {
   @override
   void playSong(List<(String, Duration)> notes) {
     song = notes;
+    onChange?.call('songstop');
     for (final (s, at) in notes) {
       onChange?.call('song $s ${at.inMilliseconds}');
     }
   }
 
   @override
-  void stopSong() => song = [];
+  void stopSong() {
+    song = [];
+    onChange?.call('songstop');
+  }
 }
 
 /// The real sounds, through flutter_soloud: one engine mixes everything.

@@ -115,7 +115,7 @@ class _HighLowScreenState extends ConsumerState<HighLowScreen> {
           final barW = barH * 80 / 400;
           final top = h - barH + barH * (300 - _step * 70) / 400;
           return Stack(key: _stairsKey, clipBehavior: Clip.none, children: [
-            Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+            Positioned.fill(child: Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
               for (var i = 0; i < 5; i++)
                 Expanded(
                   child: Semantics(
@@ -128,7 +128,7 @@ class _HighLowScreenState extends ConsumerState<HighLowScreen> {
                     child: SizedBox(height: barH, child: Center(child: SizedBox(width: barW * 1.6, child: Art(ArtPath.step(i, lit: i == _step), fit: BoxFit.fill)))),
                   ),
                 ),
-            ]),
+            ])),
             AnimatedPositioned(
               duration: const Duration(milliseconds: 180),
               curve: Curves.easeOut,

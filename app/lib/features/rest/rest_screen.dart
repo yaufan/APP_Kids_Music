@@ -61,6 +61,7 @@ class _RestScreenState extends ConsumerState<RestScreen> with SingleTickerProvid
 
   Future<void> _parent() async {
     if (!await showParentGate(context) || !mounted) return;
+    ParentPass.take(); // play goes on; the pass to parent mode is not needed
     ref.read(gameProvider.notifier).change((g) => g.playOn());
     ref.read(sessionStartProvider.notifier).restart();
     context.go('/');

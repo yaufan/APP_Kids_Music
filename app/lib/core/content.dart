@@ -162,13 +162,35 @@ enum Family { street, nature, temple, kitchen, animal }
 
 /// Music that plays under a screen (design/sounds/README.md).
 enum Music {
-  stage('music_stage'),
-  freeze('music_freeze'),
-  rest('music_rest');
+  stage('music_stage', background: true),
+  freeze('music_freeze', background: false),
+  rest('music_rest', background: true);
 
-  const Music(this.file);
+  const Music(this.file, {required this.background});
 
   final String file;
+
+  /// Background music (the stage, the rest) follows the parent's 背景音樂
+  /// switch; the freeze game's music is the toy itself and always plays.
+  final bool background;
+}
+
+/// Which short sounds the parent's 按鈕音效 switch turns off: the buttons and
+/// the little cues around the toys. The toys themselves (the instruments,
+/// the animals, the band, the stairs, 聽聽看, the freeze game's stings, a
+/// song) always sound: they are what the child plays with.
+abstract final class SoundKind {
+  static const ui = {
+    'tap', 'back', 'open', 'lock', 'pop', 'applause', 'sparkle', 'join', 'leave', 'light', 'lights_off', 'night', 'right', 'rec_start', 'rec_stop',
+  };
+
+  static bool isUi(String sfx) => ui.contains(sfx);
+
+  /// Whether [sfx] plays with the 按鈕音效 switch at [effects].
+  static bool plays(String sfx, {required bool effects}) => effects || !isUi(sfx);
+
+  /// The music heard when [wanted] is asked for and 背景音樂 is [music].
+  static Music? music(Music? wanted, {required bool music}) => wanted != null && wanted.background && !music ? null : wanted;
 }
 
 /// Where the pictures are (docs/art.md).

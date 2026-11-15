@@ -110,8 +110,10 @@ abstract final class Strings {
   static const toys = '要開哪些玩具';
   static const toysNote = '關掉的玩具不會出現在舞台上（例如晚上關掉鼓）。';
   static const sound = '聲音';
-  static const music = '背景音樂';
-  static const effects = '音效';
+  static const music = '背景音樂（舞台和休息時的音樂）';
+  static const musicNote = '動物樂團和音樂木頭人的音樂是玩具本身，一直都會響。';
+  static const effects = '按鈕音效（按鈕、氣球、拍手這些提示聲）';
+  static const effectsNote = '樂器、動物、聽聽看和小曲子的聲音是玩具本身，一直都會響；要全部小聲，請調下面的音量上限。';
   static const voice = '國語念出來';
   static const english = '也念英文（動物和聲音的名字）';
   static const maxVolume = '音量上限（保護小耳朵）';

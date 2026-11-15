@@ -75,8 +75,10 @@ class BandNotifier extends Notifier<BandState> {
   /// [a] goes to [spot] (from wherever it was; whoever stood there steps off).
   void put(Animal a, int spot) {
     final spots = {...state.spots}..removeWhere((_, x) => x == a);
+    final off = spots[spot];
     spots[spot] = a;
-    state = state.copyWith(spots: spots);
+    // Whoever stood there steps off the stage, and is not 噓'd any more.
+    state = state.copyWith(spots: spots, shushed: off == null || off == a ? null : ({...state.shushed}..remove(off)));
   }
 
   void remove(Animal a) => state = state.copyWith(spots: {...state.spots}..removeWhere((_, x) => x == a), shushed: {...state.shushed}..remove(a));

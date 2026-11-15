@@ -61,7 +61,7 @@
 - `app/lib/features/`：舞台首頁（`stage/`）、敲敲樂（`tap/`，琴鍵 `keys_view.dart` 三個地方共用）、動物樂團（`band/`）、音樂木頭人（`freeze/`）、高低快慢（`highlow/`）、錄下來（`record/`）、聽聽看（`listen/`）、休息（`rest/`）、家長關卡和家長模式（`parent/`）。
 - `app/lib/app/`：路由和休息時間（`app.dart`）、顏色（`theme.dart`）、所有的字（`strings.dart`）、共用的小元件（`widgets.dart`：`NeonButton`、`StageBackdrop`、`ToyPage`……）。
 - 圖：`design/art/`（`kit.py` 霓虹燈管畫法、`stage.py`、`animals.py`、`keys.py`、`ui.py`、`listen.py`、`icon.py`；`build.py all` 產生和檢查，`sheet` 看圖，`fluttercheck` 用真的 flutter_svg 比對）；約定在 `docs/art.md`。聲音：`design/sounds/make_sounds.py`（`README.md` 有每個檔）。
-- 測試：`test/rules_test.dart`（規則、樂團每個檔一樣長）、`art_test.dart`、`safety_test.dart`、`version_test.dart`、`flow_test.dart`（手機和平板、兩個難度、每個玩具，截圖 44 張）、`test/demo/demo_video_test.dart`。
+- 測試：`test/rules_test.dart`（規則、樂團每個檔一樣長）、`art_test.dart`、`safety_test.dart`、`version_test.dart`、`toys_test.dart`（聲音開關、小鳥的第一下）、`flow_test.dart`（手機和平板、兩個難度、每個玩具，截圖 44 張）、`test/demo/demo_video_test.dart`。
 
 ## 目前的狀態（2026-11-15）
 - 0.1.0 做好、測試都過了，在本機 `claude/relaxed-albattani-6mbwpz` 分支 commit；GitHub 專案使用者還沒建，建好後再推（推 main 前要先問）。

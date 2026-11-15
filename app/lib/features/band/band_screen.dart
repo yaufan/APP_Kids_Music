@@ -52,7 +52,9 @@ class _BandScreenState extends ConsumerState<BandScreen> with SingleTickerProvid
   final _trayKeys = <Animal, GlobalKey>{};
   final _hops = <Animal, int>{};
   late final Ticker _ticker;
-  Duration _elapsed = Duration.zero;
+
+  /// Beats since the band started (moves the singing animals; only they rebuild).
+  final _beats = ValueNotifier<double>(0);
   _Drag? _drag;
   Timer? _hold;
   Timer? _cheer;
@@ -64,7 +66,9 @@ class _BandScreenState extends ConsumerState<BandScreen> with SingleTickerProvid
     super.initState();
     _sounds = ref.read(soundsProvider);
     _sounds.hold(this, null);
-    _ticker = createTicker((d) => setState(() => _elapsed = d))..start();
+    _ticker = createTicker((d) {
+      _beats.value = MusicClock.of(ref.read(bandProvider).tempo).beatsAt(_sounds.bandTime ?? d);
+    })..start();
     final s = ref.read(gameProvider).settings;
     _say = s.level == Level.small ? Strings.bandHint : Strings.bandHintBig;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -80,6 +84,7 @@ class _BandScreenState extends ConsumerState<BandScreen> with SingleTickerProvid
   @override
   void dispose() {
     _ticker.dispose();
+    _beats.dispose();
     _hold?.cancel();
     _cheer?.cancel();
     _sounds.bandStop();
@@ -260,17 +265,16 @@ class _BandScreenState extends ConsumerState<BandScreen> with SingleTickerProvid
 
   // ---- drawing
   Widget _animal(Animal a, double size, {required bool singing, required bool shushed}) {
-    final clock = MusicClock.of(ref.read(bandProvider).tempo);
-    final t = _sounds.bandTime ?? _elapsed;
-    final beats = clock.beatsAt(t);
-    final bob = singing ? (math.sin(beats * math.pi).abs() * size * 0.06) : 0.0;
     final pose = shushed ? Pose.frozen : (singing ? Pose.sing : Pose.idle);
-    return Transform.translate(
-      offset: Offset(0, -bob),
-      child: Opacity(
-        opacity: shushed ? 0.55 : 1,
-        child: Hop(trigger: _hops[a] ?? 0, height: size * 0.2, child: SizedBox(width: size, height: size, child: Art(a.art(pose)))),
-      ),
+    final body = Opacity(
+      opacity: shushed ? 0.55 : 1,
+      child: Hop(trigger: _hops[a] ?? 0, height: size * 0.2, child: SizedBox(width: size, height: size, child: Art(a.art(pose)))),
+    );
+    if (!singing) return body;
+    return ValueListenableBuilder<double>(
+      valueListenable: _beats,
+      child: body,
+      builder: (_, beats, child) => Transform.translate(offset: Offset(0, -math.sin(beats * math.pi).abs() * size * 0.06), child: child),
     );
   }
 

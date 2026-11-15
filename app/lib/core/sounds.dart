@@ -11,13 +11,17 @@ import 'music.dart';
 /// starts and fades them at exact engine times); tests use [RecordingSounds],
 /// which writes down what was asked.
 abstract interface class Sounds {
+  /// 背景音樂: the stage's and the rest's music (not the toys: [Music.background]).
   set music(bool on);
+
+  /// 按鈕音效: the buttons' and cues' sounds (not the toys: [SoundKind]).
   set effects(bool on);
 
   /// The parent's loudest (0.3 to 1).
   set volume(double v);
 
   /// A short sound by its file name in assets/sounds/ (`xylo_0`, `tap`, `call_bear`…).
+  /// The toys' sounds always play; the buttons' follow the 按鈕音效 switch.
   void play(String sfx, {double volume = 1});
 
   /// [owner] (a screen) wants [music]; the one asked for last plays.
@@ -35,7 +39,8 @@ abstract interface class Sounds {
   /// Time since the band started (for moving on the beat), or null.
   Duration? get bandTime;
 
-  /// A song: [notes] (sound, when after now), all scheduled at once.
+  /// A song: [notes] (sound, when after now), all scheduled at once; a new
+  /// song (or [stopSong]) cancels the one before, even one still loading.
   void playSong(List<(String, Duration)> notes);
   void stopSong();
 }
@@ -98,18 +103,27 @@ class RecordingSounds implements Sounds {
   List<(String, Duration)> song = [];
   Music? _playing;
 
-  Music? get musicNow => _holders.current;
+  var _music = true, _effects = true;
+
+  /// What is heard now (the background music is off when 背景音樂 is).
+  Music? get musicNow => SoundKind.music(_holders.current, music: _music);
   bool get bandOn => bandTempo != null;
 
   @override
-  set music(bool on) {}
+  set music(bool on) {
+    _music = on;
+    _changed();
+  }
+
   @override
-  set effects(bool on) {}
+  set effects(bool on) => _effects = on;
   @override
   set volume(double v) {}
 
+  /// Only the sounds that are heard are written down.
   @override
   void play(String sfx, {double volume = 1}) {
+    if (!SoundKind.plays(sfx, effects: _effects)) return;
     played.add(sfx);
     onChange?.call('sfx $sfx');
   }
@@ -127,8 +141,8 @@ class RecordingSounds implements Sounds {
   }
 
   void _changed() {
-    if (_holders.current == _playing) return;
-    _playing = _holders.current;
+    if (musicNow == _playing) return;
+    _playing = musicNow;
     onChange?.call('music ${_playing?.file ?? '-'}');
   }
 
@@ -208,6 +222,7 @@ class EngineSounds implements Sounds {
   int _bandTurn = 0;
 
   final _song = <SoundHandle>[];
+  int _songTurn = 0;
 
   SoLoud get _s => SoLoud.instance;
 
@@ -253,7 +268,7 @@ class EngineSounds implements Sounds {
 
   @override
   void play(String sfx, {double volume = 1}) {
-    if (!_effects || _away || sfx.isEmpty) return;
+    if (!SoundKind.plays(sfx, effects: _effects) || _away || sfx.isEmpty) return;
     unawaited(() async {
       if (!await _init()) return;
       final src = await _load(sfx);
@@ -277,7 +292,7 @@ class EngineSounds implements Sounds {
   }
 
   void _updateMusic() {
-    final wanted = !_music ? null : _holders.current;
+    final wanted = SoundKind.music(_holders.current, music: _music);
     if (wanted == _playing) return;
     _playing = wanted;
     final turn = ++_musicTurn;
@@ -375,7 +390,7 @@ class EngineSounds implements Sounds {
   @override
   void playSong(List<(String, Duration)> notes) {
     stopSong();
-    if (!_effects) return;
+    final turn = _songTurn;
     unawaited(() async {
       if (!await _init()) return;
       final loaded = <(AudioSource, Duration)>[];
@@ -383,6 +398,8 @@ class EngineSounds implements Sounds {
         final src = await _load(s);
         if (src != null) loaded.add((src, at));
       }
+      // Stopped, or another song asked for, while the notes were loading.
+      if (turn != _songTurn) return;
       try {
         final t0 = _s.getEngineTime() + const Duration(milliseconds: 80);
         for (final (src, at) in loaded) {
@@ -394,6 +411,7 @@ class EngineSounds implements Sounds {
 
   @override
   void stopSong() {
+    _songTurn++;
     final handles = [..._song];
     _song.clear();
     for (final h in handles) {

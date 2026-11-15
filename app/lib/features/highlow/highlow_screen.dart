@@ -55,8 +55,15 @@ class _HighLowScreenState extends ConsumerState<HighLowScreen> {
     return (p.dx / box.size.width * 5).floor().clamp(0, 4);
   }
 
-  void _to(int step) {
-    if (step == _step) return;
+  void _to(int step, {bool touch = false}) {
+    if (step == _step) {
+      // A finger on the bird's own step: it sings that note again and hops.
+      if (touch) {
+        _sounds.play('stair_$step');
+        setState(() => _hops++);
+      }
+      return;
+    }
     final up = step > _step;
     _sounds.play('stair_$step');
     final say = up ? Strings.high : Strings.low;
@@ -72,9 +79,9 @@ class _HighLowScreenState extends ConsumerState<HighLowScreen> {
     }
   }
 
-  void _stairs(Offset global) {
+  void _stairs(Offset global, {bool touch = false}) {
     final s = _stepAt(global);
-    if (s != null) _to(s);
+    if (s != null) _to(s, touch: touch);
   }
 
   void _speed(Offset global) {
@@ -105,7 +112,7 @@ class _HighLowScreenState extends ConsumerState<HighLowScreen> {
 
   Widget _stairsView() => Listener(
         behavior: HitTestBehavior.opaque,
-        onPointerDown: (e) => _stairs(e.position),
+        onPointerDown: (e) => _stairs(e.position, touch: true),
         onPointerMove: (e) => _stairs(e.position),
         child: LayoutBuilder(builder: (_, box) {
           final w = box.maxWidth / 5;
@@ -124,7 +131,7 @@ class _HighLowScreenState extends ConsumerState<HighLowScreen> {
                     button: true,
                     label: Strings.stepN(i),
                     excludeSemantics: true,
-                    onTap: () => _to(i),
+                    onTap: () => _to(i, touch: true),
                     child: SizedBox(height: barH, child: Center(child: SizedBox(width: barW * 1.6, child: Art(ArtPath.step(i, lit: i == _step), fit: BoxFit.fill)))),
                   ),
                 ),

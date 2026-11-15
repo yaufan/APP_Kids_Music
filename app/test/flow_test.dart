@@ -115,7 +115,7 @@ void main() {
       await app.tapKey('toy-highlow', ms: 800);
       n = app.sounds.played.length;
       await app.drag(app.centre('step-0'), app.centre('step-4'), steps: 10);
-      expect(since(n), ['stair_1', 'stair_2', 'stair_3', 'stair_4']);
+      expect(since(n), ['stair_0', 'stair_1', 'stair_2', 'stair_3', 'stair_4'], reason: 'the first touch sings the bird\'s own step');
       expect(app.voice.said, contains('高～'));
       expect(find.byKey(const ValueKey('loud')), findsNothing, reason: '小小 only has high and low');
       await app.settle(400);

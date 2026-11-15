@@ -178,7 +178,14 @@ class Game {
   static const maxSongs = 8;
   static const restLength = Duration(hours: 1);
 
-  bool resting(DateTime now) => restSince != null && now.difference(restSince!) < restLength;
+  /// Within the hour after the rest began (a phone clock moved back to before
+  /// it does not keep the child waiting).
+  bool resting(DateTime now) {
+    final since = restSince;
+    if (since == null) return false;
+    final d = now.difference(since);
+    return !d.isNegative && d < restLength;
+  }
 
   Game copyWith({Settings? settings, List<Song>? songs, Today? today, DateTime? restSince, bool clearRest = false}) => Game(
         settings: settings ?? this.settings,

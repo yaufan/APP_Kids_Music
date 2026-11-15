@@ -6,7 +6,9 @@ import 'dart:typed_data';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:little_wave/core/content.dart';
 import 'package:little_wave/core/game.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:little_wave/core/music.dart';
+import 'package:little_wave/core/providers.dart';
 import 'package:little_wave/core/store.dart';
 
 /// The rules of the toys (docs/design.md): the band's clock, the one key,
@@ -89,6 +91,66 @@ void main() {
           expect(File('assets/sounds/${i.sound(k)}.wav').existsSync(), isTrue, reason: i.sound(k));
         }
       }
+    });
+  });
+
+  group('the band on the stage', () {
+    test('an animal pushed off its spot is not 噓\'d any more when it comes back', () {
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      final band = c.read(bandProvider.notifier);
+      band.put(Animal.bear, 0);
+      band.shush(Animal.bear);
+      expect(c.read(bandProvider).singing, isEmpty);
+      band.put(Animal.frog, 0);
+      expect(c.read(bandProvider).onStage, {Animal.frog});
+      expect(c.read(bandProvider).shushed, isEmpty);
+      band.put(Animal.bear, 1);
+      expect(c.read(bandProvider).singing, {Animal.frog, Animal.bear}, reason: 'the bear sings again');
+    });
+
+    test('a 噓\'d animal moved to another spot stays 噓\'d; one dragged off is not', () {
+      final c = ProviderContainer();
+      addTearDown(c.dispose);
+      final band = c.read(bandProvider.notifier)
+        ..put(Animal.cat, 0)
+        ..shush(Animal.cat)
+        ..put(Animal.cat, 2);
+      expect(c.read(bandProvider).shushed, {Animal.cat});
+      band.remove(Animal.cat);
+      band.put(Animal.cat, 1);
+      expect(c.read(bandProvider).singing, {Animal.cat});
+    });
+  });
+
+  group('what the parent\'s sound switches turn off', () {
+    test('按鈕音效 only turns off the buttons and cues; every toy keeps its sound', () {
+      final toys = [
+        for (final i in Instrument.values)
+          for (var k = 0; k < i.count(Level.big); k++) i.sound(k),
+        for (final a in Animal.values) ...[a.call, for (final t in Tempo.values) a.loop(t)],
+        for (final s in StreetSound.values) s.sound,
+        for (var i = 0; i < 5; i++) 'stair_$i',
+        'loud', 'soft', 'freeze_stop', 'freeze_go', 'shh', 'cheer', 'tick',
+      ];
+      for (final s in toys) {
+        expect(SoundKind.plays(s, effects: false), isTrue, reason: s);
+      }
+      for (final s in ['tap', 'back', 'open', 'lock', 'pop', 'applause', 'join']) {
+        expect(SoundKind.plays(s, effects: false), isFalse, reason: s);
+        expect(SoundKind.plays(s, effects: true), isTrue, reason: s);
+      }
+      for (final s in SoundKind.ui) {
+        expect(File('assets/sounds/$s.wav').existsSync(), isTrue, reason: s);
+      }
+    });
+
+    test('背景音樂 only turns off the stage\'s and the rest\'s music, not the freeze game\'s', () {
+      expect(SoundKind.music(Music.stage, music: false), isNull);
+      expect(SoundKind.music(Music.rest, music: false), isNull);
+      expect(SoundKind.music(Music.freeze, music: false), Music.freeze);
+      expect(SoundKind.music(Music.stage, music: true), Music.stage);
+      expect(SoundKind.music(null, music: true), isNull);
     });
   });
 
@@ -268,6 +330,14 @@ void main() {
       expect(g.today!.seconds, 180);
       g = g.opened(Toy.tap, now.add(const Duration(days: 1)));
       expect(g.today!.opens, {Toy.tap: 1}, reason: 'a new day starts over');
+    });
+
+    test('a phone clock moved back to before the rest does not keep the child waiting', () {
+      final now = DateTime(2026, 11, 15, 10);
+      final g = const Game().rest(now);
+      expect(g.resting(now), isTrue);
+      expect(g.resting(now.subtract(const Duration(minutes: 5))), isFalse);
+      expect(g.resting(now.subtract(const Duration(days: 1))), isFalse);
     });
 
     test('free version: the first six animals, and 錄下來 and 聽聽看 are locked', () {

@@ -32,7 +32,12 @@ flutter:
   uses-material-design: true
   assets:
     - assets/sounds/
-    - assets/art/
+    - assets/art/stage/
+    - assets/art/animals/
+    - assets/art/keys/
+    - assets/art/toys/
+    - assets/art/ui/
+    - assets/art/listen/
   fonts:
     - family: Huninn
       fonts:

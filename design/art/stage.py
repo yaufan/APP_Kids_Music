@@ -49,8 +49,9 @@ def curtain(right=False):
     c.fill(body, PINK, op=0.07)
     for f in folds:
         c.line(f, CORAL if not right else PINK, 2.6, glow=1.0, core=0.6)
-    tie = ellipse(w - 70 if right else 70, 432, 18, 9)
-    c.tube(tie, YELLOW, w=2.6, glass=0.3)
+    for k in range(3):   # the tie-back: three little lights where the folds are gathered
+        x = 30 + k * 9
+        c.glowdot(w - x if right else x, 430 + k * 3, 3.2, YELLOW, 0.3)
     return c.svg()
 
 

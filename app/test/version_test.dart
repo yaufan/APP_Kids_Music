@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/app/version.dart';
+import 'package:little_musician/app/version.dart';
 
 /// The version is written in three places; they have to agree.
 void main() {

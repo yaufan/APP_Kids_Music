@@ -1,4 +1,4 @@
-# 圖和程式的約定（小小音波）
+# 圖和程式的約定（小小音樂家）
 
 所有的圖都是 `design/art/` 的 Python 畫的 SVG（霓虹舞台風），放在 `app/assets/art/`，APP 用 flutter_svg 畫。這份是「程式要哪些檔、每個檔多大」的約定；改了這裡，`test/art_test.dart` 也要跟著改。
 

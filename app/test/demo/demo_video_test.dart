@@ -1,4 +1,4 @@
-// Records a demo video of 小小音波 being played: a scripted child (a white
+// Records a demo video of 小小音樂家 being played: a scripted child (a white
 // dot where the finger is) with a caption under the phone screen; the music,
 // the band and the sounds the app asked for are written down and mixed in
 // afterwards by tools/demo_audio.py.
@@ -16,14 +16,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/app/app.dart';
-import 'package:little_wave/core/content.dart';
-import 'package:little_wave/core/game.dart';
-import 'package:little_wave/core/providers.dart';
-import 'package:little_wave/core/sounds.dart';
-import 'package:little_wave/core/store.dart';
-import 'package:little_wave/core/voice.dart';
-import 'package:little_wave/features/parent/parent_gate.dart';
+import 'package:little_musician/app/app.dart';
+import 'package:little_musician/core/content.dart';
+import 'package:little_musician/core/game.dart';
+import 'package:little_musician/core/providers.dart';
+import 'package:little_musician/core/sounds.dart';
+import 'package:little_musician/core/store.dart';
+import 'package:little_musician/core/voice.dart';
+import 'package:little_musician/features/parent/parent_gate.dart';
 
 import '../helpers.dart' show loadFonts;
 
@@ -66,7 +66,7 @@ void main() {
                     randomProvider.overrideWithValue(math.Random(7)),
                     clockProvider.overrideWithValue(() => now),
                   ],
-                  child: const LittleWaveApp(),
+                  child: const LittleMusicianApp(),
                 ),
                 IgnorePointer(child: ValueListenableBuilder(valueListenable: finger, builder: (_, at, _) => _Finger(at))),
               ]),
@@ -129,12 +129,12 @@ void main() {
       await frames(2);
     }
 
-    ProviderContainer container() => ProviderScope.containerOf(tester.element(find.byType(LittleWaveApp)));
+    ProviderContainer container() => ProviderScope.containerOf(tester.element(find.byType(LittleMusicianApp)));
     void change(Game Function(Game) f) => container().read(gameProvider.notifier).change(f);
 
     // The stage.
     mark('stage');
-    caption.value = '小小音波：給 2～5 歲的音樂玩具\n隨便敲、隨便拖，都好聽';
+    caption.value = '小小音樂家：給 2～5 歲的音樂玩具\n隨便敲、隨便拖，都好聽';
     await seconds(3);
     caption.value = '一個舞台，六個發光的玩具';
     await seconds(2);

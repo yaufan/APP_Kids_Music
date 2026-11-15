@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/core/content.dart';
+import 'package:little_musician/core/content.dart';
 
 /// Every picture the program asks for exists (docs/art.md), flutter_svg can
 /// draw it, and every sound it plays is there (design/sounds/README.md).

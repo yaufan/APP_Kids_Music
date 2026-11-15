@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="小小音波"
+        android:label="小小音樂家"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

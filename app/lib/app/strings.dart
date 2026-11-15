@@ -4,10 +4,10 @@ import '../core/game.dart';
 /// Everything the app says, in Traditional Chinese (Taiwan). The child does
 /// not need to read: everything important is also said out loud.
 abstract final class Strings {
-  static const appName = '小小音波';
+  static const appName = '小小音樂家';
 
   // The stage.
-  static const welcome = '歡迎來到小小音波！點一個玩具開始玩。';
+  static const welcome = '歡迎來到小小音樂家！點一個玩具開始玩。';
   static const parent = '家長';
   static String timeLeft(int minutes) => '還可以玩 $minutes 分鐘';
   static const locked = '這個要請爸爸媽媽打開喔！';

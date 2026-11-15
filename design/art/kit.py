@@ -1,4 +1,4 @@
-"""Neon stage drawing kit for 小小音波 (霓虹舞台風).
+"""Neon stage drawing kit for 小小音樂家 (霓虹舞台風).
 
 Everything is a soft neon tube on a deep navy-purple stage: a shape is filled with its own colour
 at ~16 % (glass), then its outline is drawn as a tube: two wide, see-through strokes of the same

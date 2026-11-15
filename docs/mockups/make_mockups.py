@@ -1,4 +1,4 @@
-"""Design-stage sketches for 「小小音波」 (a music toy for 2-5 year olds).
+"""Design-stage sketches for 「小小音樂家」 (a music toy for 2-5 year olds).
 
     python3 make_mockups.py          # writes docs/mockups/*.png (needs Node.js + Playwright)
     python3 make_mockups.py 3        # only one page: 0 = style page, 1..8 = a screen, c = contact sheet
@@ -734,7 +734,7 @@ def screen_home():
     o.append(confetti(5, 14, 40, 150, 350, 330, 1.1))
     # title balloon letters
     o.append(brect(70, 118, 250, 58, 29, "#FFFFFF", sh=2, op=.92, gloss=False))
-    o.append(text(W / 2, 158, "小小音波", 34, INK, weight="bold"))
+    o.append(text(W / 2, 158, "小小音樂家", 34, INK, weight="bold"))
     o.append(top_bar(.3))
     # six toy buttons
     toys = [("敲敲樂", RED, "mallet"), ("動物樂團", ORA, "frog"), ("音樂木頭人", GRN, "hand"),

@@ -1,4 +1,4 @@
-"""小小音波's app icon, in the neon stage look of the rest of the art (kit.py: neon tubes with a glow on
+"""小小音樂家's app icon, in the neon stage look of the rest of the art (kit.py: neon tubes with a glow on
 a dark stage). The picture: a big yellow neon music note with a happy face on its head, and three sound
 waves (pink, cyan, green) going out to the right, on the night-stage navy with a soft purple light.
 
@@ -276,7 +276,7 @@ def preview(out):
         sheet.paste(resized(im, s), (x, y + 48 - s), mask(kind, s))
         x += s + 24
     y = pad + big + pad
-    icons = siblings() + [("小小音波", view)]
+    icons = siblings() + [("小小音樂家", view)]
     sheet.paste(home_screen(icons, False, W - 2 * pad), (pad, y))
     sheet.paste(home_screen(icons, True, W - 2 * pad), (pad, y + 104))
     sheet.save(out)

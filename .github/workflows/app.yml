@@ -100,28 +100,28 @@ jobs:
             exit 0
           else
             # Spaces and line breaks from pasting the secret are dropped.
-            printf '%s' "$KEYSTORE" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/little-wave.p12"
-            echo "LITTLE_WAVE_KEYSTORE=$RUNNER_TEMP/little-wave.p12" >> "$GITHUB_ENV"
+            printf '%s' "$KEYSTORE" | tr -d ' \r\n' | base64 -d > "$RUNNER_TEMP/little-musician.p12"
+            echo "LITTLE_MUSICIAN_KEYSTORE=$RUNNER_TEMP/little-musician.p12" >> "$GITHUB_ENV"
           fi
 
       # Signed with the test key (or the debug key without it): fine for
       # installing on a test phone, not for Google Play.
       - name: Build Android APK
         env:
-          LITTLE_WAVE_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          LITTLE_MUSICIAN_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
         run: |
           flutter build apk --release --split-per-abi --build-name="$VERSION" --build-number="$BUILD" \
             --dart-define=APP_VERSION="$VERSION" --dart-define=APP_BUILD="$BUILD"
           # One APK per kind of phone chip, about a third of one with all three.
           for abi in arm64-v8a:arm64 armeabi-v7a:armv7 x86_64:x86_64; do
-            mv "build/app/outputs/flutter-apk/app-${abi%:*}-release.apk" "build/little-wave-$VERSION-$BUILD-${abi#*:}.apk"
+            mv "build/app/outputs/flutter-apk/app-${abi%:*}-release.apk" "build/little-musician-$VERSION-$BUILD-${abi#*:}.apk"
           done
 
       # Signed with the test key, or a phone with the app on it cannot update.
       - name: Check the signing key
         run: |
           APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
-          for apk in build/little-wave-*.apk; do
+          for apk in build/little-musician-*.apk; do
             CERTS=$("$APKSIGNER" verify --print-certs "$apk")
             if ! grep -q "SHA-256 digest: $TEST_KEY_SHA256" <<< "$CERTS"; then
               echo "::warning::$apk is not signed with the test key"
@@ -134,7 +134,7 @@ jobs:
       - name: Check Android permissions
         run: |
           AAPT2=$(ls "$ANDROID_HOME"/build-tools/*/aapt2 | sort -V | tail -1)
-          for apk in build/little-wave-*.apk; do
+          for apk in build/little-musician-*.apk; do
             "$AAPT2" dump permissions "$apk" | tee -a permissions.txt
           done
           if grep -E 'INTERNET|LOCATION|AD_ID|RECORD_AUDIO' permissions.txt; then
@@ -147,6 +147,6 @@ jobs:
       - uses: actions/upload-artifact@v4
         continue-on-error: true
         with:
-          name: little-wave-android-apk
-          path: app/build/little-wave-*-arm64.apk
+          name: little-musician-android-apk
+          path: app/build/little-musician-*-arm64.apk
           retention-days: 3

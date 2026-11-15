@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/core/content.dart';
-import 'package:little_wave/core/game.dart';
-import 'package:little_wave/core/providers.dart';
-import 'package:little_wave/features/parent/parent_gate.dart';
+import 'package:little_musician/core/content.dart';
+import 'package:little_musician/core/game.dart';
+import 'package:little_musician/core/providers.dart';
+import 'package:little_musician/features/parent/parent_gate.dart';
 
 import 'helpers.dart';
 

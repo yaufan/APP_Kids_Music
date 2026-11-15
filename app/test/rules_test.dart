@@ -4,12 +4,12 @@ import 'dart:math' as math;
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/core/content.dart';
-import 'package:little_wave/core/game.dart';
+import 'package:little_musician/core/content.dart';
+import 'package:little_musician/core/game.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:little_wave/core/music.dart';
-import 'package:little_wave/core/providers.dart';
-import 'package:little_wave/core/store.dart';
+import 'package:little_musician/core/music.dart';
+import 'package:little_musician/core/providers.dart';
+import 'package:little_musician/core/store.dart';
 
 /// The rules of the toys (docs/design.md): the band's clock, the one key,
 /// the freeze game, the tape, 聽聽看, and what is kept.
@@ -314,7 +314,7 @@ void main() {
       store.write(const Game(settings: Settings(minutes: 10)).toJson());
       await store.flush();
       expect(Game.fromJson(await store.read()).settings.minutes, 10);
-      File('${dir.path}/little_wave.json').writeAsStringSync('{"settings": {"minu');
+      File('${dir.path}/little_musician.json').writeAsStringSync('{"settings": {"minu');
       expect(Game.fromJson(await store.read()).settings.minutes, 5, reason: 'the copy from the save before');
     });
 

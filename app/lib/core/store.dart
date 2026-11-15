@@ -15,7 +15,7 @@ abstract interface class GameStore {
 }
 
 class FileStore implements GameStore {
-  FileStore(Directory dir) : _file = File('${dir.path}/little_wave.json');
+  FileStore(Directory dir) : _file = File('${dir.path}/little_musician.json');
 
   final File _file;
   Future<void> _queue = Future.value();

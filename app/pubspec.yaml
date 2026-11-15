@@ -1,5 +1,5 @@
-name: little_wave
-description: "小小音波：2～5 歲的音樂玩具。"
+name: little_musician
+description: "小小音樂家：2～5 歲的音樂玩具。"
 publish_to: 'none'
 
 # The version (also in lib/app/version.dart and CHANGELOG.md; test/version_test.dart checks they agree).

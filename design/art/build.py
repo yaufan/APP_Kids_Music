@@ -1,4 +1,4 @@
-"""Writes the pictures of 小小音波 (kit.py: neon tubes on a dark stage) and checks them.
+"""Writes the pictures of 小小音樂家 (kit.py: neon tubes on a dark stage) and checks them.
 
     python3 build.py all                      # every module (its build()), then check
     python3 build.py animals                  # one module: stage, animals, keys, ui, listen

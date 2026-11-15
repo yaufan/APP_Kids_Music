@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/core/content.dart';
-import 'package:little_wave/core/game.dart';
+import 'package:little_musician/core/content.dart';
+import 'package:little_musician/core/game.dart';
 
 import 'helpers.dart';
 

@@ -7,12 +7,12 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/app/app.dart';
-import 'package:little_wave/core/game.dart';
-import 'package:little_wave/core/providers.dart';
-import 'package:little_wave/core/sounds.dart';
-import 'package:little_wave/core/store.dart';
-import 'package:little_wave/core/voice.dart';
+import 'package:little_musician/app/app.dart';
+import 'package:little_musician/core/game.dart';
+import 'package:little_musician/core/providers.dart';
+import 'package:little_musician/core/sounds.dart';
+import 'package:little_musician/core/store.dart';
+import 'package:little_musician/core/voice.dart';
 
 final shotKey = GlobalKey();
 
@@ -26,7 +26,7 @@ class TestApp {
   final RecordingVoice voice;
   DateTime now = DateTime(2026, 11, 15, 10);
 
-  ProviderContainer get container => ProviderScope.containerOf(tester.element(find.byType(LittleWaveApp)));
+  ProviderContainer get container => ProviderScope.containerOf(tester.element(find.byType(LittleMusicianApp)));
   Game get game => container.read(gameProvider);
   void change(Game Function(Game g) f) => container.read(gameProvider.notifier).change(f);
 
@@ -47,7 +47,7 @@ class TestApp {
           voiceProvider.overrideWithValue(app.voice),
           clockProvider.overrideWithValue(() => app.now),
         ],
-        child: const LittleWaveApp(),
+        child: const LittleMusicianApp(),
       ),
     ));
     if (at != '/') app.go(at);

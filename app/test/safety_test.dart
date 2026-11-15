@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:little_wave/core/content.dart';
-import 'package:little_wave/core/game.dart';
-import 'package:little_wave/features/parent/parent_gate.dart';
+import 'package:little_musician/core/content.dart';
+import 'package:little_musician/core/game.dart';
+import 'package:little_musician/features/parent/parent_gate.dart';
 
 import 'helpers.dart';
 
@@ -14,12 +14,12 @@ void main() {
     final manifest = File('android/app/src/main/AndroidManifest.xml').readAsStringSync();
     expect(manifest, isNot(contains('uses-permission')), reason: 'no internet, microphone, location…');
     expect(manifest, contains('android:name="flutter_deeplinking_enabled" android:value="false"'));
-    expect(manifest, contains('android:label="小小音波"'));
+    expect(manifest, contains('android:label="小小音樂家"'));
     final plist = File('ios/Runner/Info.plist').readAsStringSync();
     expect(plist, contains('<key>FlutterDeepLinkingEnabled</key>\n\t<false/>'));
     expect(plist, isNot(contains('NSMicrophoneUsageDescription')));
     expect(File('pubspec.yaml').readAsStringSync(), isNot(contains('source: system')));
-    expect(File('android/app/build.gradle.kts').readAsStringSync(), contains('applicationId = "com.yaufan.littlewave"'));
+    expect(File('android/app/build.gradle.kts').readAsStringSync(), contains('applicationId = "com.yaufan.littlemusician"'));
   });
 
   testWidgets('parent mode and unknown pages cannot be opened without the gate', (tester) async {

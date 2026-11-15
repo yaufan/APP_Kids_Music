@@ -1,4 +1,4 @@
-# 給 Claude 的專案規則（小小音波）
+# 給 Claude 的專案規則（小小音樂家）
 
 這份是這個專案的「記憶」。每個在這個專案裡工作的 Claude 都要照著做。它是「畫畫小鎮」（https://github.com/yaufan/APP_Kids_Paint）、「字母寵物」（https://github.com/yaufan/APP_Kids_Paint_for_learning_writing）、「動物小餐廳」（https://github.com/yaufan/APP_Kids_Cook）、「小卡認天下」（https://github.com/yaufan/APP_Kids_Card_Game）、「想一想樂園」（https://github.com/yaufan/APP_Kids_Brainstorming）、「眼尖尖大挑戰」（https://github.com/yaufan/APP_Kids_FalseCharge）、「迷宮小冒險」（https://github.com/yaufan/APP_Kids_maze）和「小小生活家」（https://github.com/yaufan/APP_Kids_live_circ）的兄弟 APP，技術和流程照那邊（畫風不同），這裡寫這個專案自己的事。程式的架構最接近小小生活家（Python 畫 SVG、ParentPass、休息時間），聲音的部分最重要，有疑問先看那邊怎麼做。
 
@@ -19,12 +19,12 @@
 - 每次玩多久由家長設定（預設 15 分鐘），時間到了霓虹燈一盞一盞暗下來，APP 說「換你去做了！」。
 - 聲音引擎用 **flutter_soloud**（不是兄弟 APP 的 audioplayers）：動物樂團每個速度的十段循環一樣長，在引擎時鐘的同一刻一起開始（沒上台的音量 0），上台、下台、「噓」是排在下一小節開頭的音量淡入淡出，所以永遠對拍、不靠手機的計時器（`docs/design.md`「技術」）。真手機上還要確認：點下去的延遲、十隻一起會不會太大聲、切到背景再回來、便宜手機卡不卡。
 - 免費版：敲敲樂三種樂器＋樂團 6 隻＋音樂木頭人＋高低快慢；完整版：10 隻、錄下來、聽聽看。購買只在家長模式。
-- 技術名稱：Flutter 專案 `little_wave`、applicationId `com.yaufan.littlewave`、APK `little-wave-版本-arm64.apk`、簽章環境變數 `LITTLE_WAVE_KEYSTORE`。
+- 技術名稱：Flutter 專案 `little_musician`、applicationId `com.yaufan.littlemusician`、APK `little-musician-版本-arm64.apk`、簽章環境變數 `LITTLE_MUSICIAN_KEYSTORE`。
 - 資安：不接受別的 APP 傳來的頁面（`flutter_deeplinking_enabled` 關掉、`overridePlatformDefaultLocation`），家長模式只能從家長關卡進去（`ParentPass`），不要任何權限。
 - 不連網、不定位、沒有廣告、沒有帳號。以後上架要收費：免費下載一部分，一次買斷完整版，購買只在家長模式（要過家長關卡）。
 - 每個動作都要有音效，全部用程式合成。
 - 授權：非商業使用（`LICENSE`），中英文版本；別人做的部分（字型）在 `NOTICE.md`。
-- 名稱：小小音波。GitHub：https://github.com/yaufan/APP_Kids_Music
+- 名稱：小小音樂家。GitHub：https://github.com/yaufan/APP_Kids_Music
 
 ## GitHub Actions
 - 工作流程（照小小生活家；第一次放上 main 前要先問）：

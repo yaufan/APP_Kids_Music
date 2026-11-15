@@ -1,4 +1,4 @@
-# little_wave
+# little_musician
 
 A new Flutter project.
 

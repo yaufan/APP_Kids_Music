@@ -59,8 +59,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   return router;
 });
 
-class LittleWaveApp extends ConsumerWidget {
-  const LittleWaveApp({super.key});
+class LittleMusicianApp extends ConsumerWidget {
+  const LittleMusicianApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

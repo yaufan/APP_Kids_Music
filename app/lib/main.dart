@@ -22,6 +22,6 @@ Future<void> main() async {
       soundsProvider.overrideWithValue(EngineSounds()),
       voiceProvider.overrideWithValue(SystemVoice()),
     ],
-    child: const LittleWaveApp(),
+    child: const LittleMusicianApp(),
   ));
 }

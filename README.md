@@ -1,4 +1,4 @@
-# 小小音波
+# 小小音樂家
 
 給 **2～5 歲**的小朋友，在台灣，國語為主：**音樂玩具，不是遊戲**。隨便敲、隨便拖都好聽（全部在同一個調、同一個速度）；沒有關卡、分數、失敗。
 
@@ -10,14 +10,14 @@
 敲敲樂（木琴、鼓、鍋碗瓢盆）、動物樂團（10 隻發光動物一起唱，含台灣黑熊、石虎、藍鵲）、音樂木頭人、高低快慢、錄下來（錄敲了哪個鍵，不用麥克風）、聽聽看（台灣生活的聲音）。兩個難度：小小（2～3 歲）、大（4～5 歲）。
 
 ## 下載（Android）
-- 最新版：[Releases](https://github.com/yaufan/APP_Kids_Music/releases/latest)，一般手機下載 `little-wave-版本-arm64.apk`。
+- 最新版：[Releases](https://github.com/yaufan/APP_Kids_Music/releases/latest)，一般手機下載 `little-musician-版本-arm64.apk`。
 - 用手機掃描 [docs/download-qr.png](docs/download-qr.png)。
 
 ## 目前進度
 - 0.1.0 測試版：六個玩具全部做好，見 [CHANGELOG.md](CHANGELOG.md)。還沒在真手機上試過，聲音也還沒用耳朵聽過。
 
 ## 程式
-- `app/`：Flutter APP（`little_wave`）。聲音用 flutter_soloud（在 APP 裡自己混音，動物樂團才會準確對拍）。
+- `app/`：Flutter APP（`little_musician`）。聲音用 flutter_soloud（在 APP 裡自己混音，動物樂團才會準確對拍）。
 - `design/art/`：Python 畫的霓虹舞台風 SVG（`docs/art.md` 是約定）；`design/sounds/`：numpy 合成全部聲音。
 - `tools/demo_audio.py`：把聲音混進示範影片。
 

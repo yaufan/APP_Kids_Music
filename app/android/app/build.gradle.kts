@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.yaufan.little_wave"
+    namespace = "com.yaufan.little_musician"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -15,7 +15,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.yaufan.littlewave"
+        applicationId = "com.yaufan.littlemusician"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -32,15 +32,15 @@ android {
     // build (the repository's Actions secrets, as in the sibling apps), so a
     // new APK installs over the old one and what the child has played stays.
     // Without it (a build on your own computer) the debug key signs.
-    val testKeystore = System.getenv("LITTLE_WAVE_KEYSTORE")?.let { file(it) }?.takeIf { it.exists() }
+    val testKeystore = System.getenv("LITTLE_MUSICIAN_KEYSTORE")?.let { file(it) }?.takeIf { it.exists() }
     signingConfigs {
         if (testKeystore != null) {
             create("test") {
                 storeFile = testKeystore
                 storeType = "pkcs12"
-                storePassword = System.getenv("LITTLE_WAVE_KEYSTORE_PASSWORD")
+                storePassword = System.getenv("LITTLE_MUSICIAN_KEYSTORE_PASSWORD")
                 keyAlias = "kidspaint"
-                keyPassword = System.getenv("LITTLE_WAVE_KEYSTORE_PASSWORD")
+                keyPassword = System.getenv("LITTLE_MUSICIAN_KEYSTORE_PASSWORD")
             }
         }
     }

@@ -1,4 +1,4 @@
-"""小小音波 (Little Wave): every sound in the app, made here from sine waves
+"""小小音樂家 (Little Wave): every sound in the app, made here from sine waves
 and noise, so every one is ours: nothing recorded, nothing downloaded, every
 tune written for this app (except the garbage truck, which plays the opening
 of Bądarzewska's "A Maiden's Prayer" (1856), as Taiwan's garbage trucks do;

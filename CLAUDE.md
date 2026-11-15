@@ -64,5 +64,5 @@
 - 測試：`test/rules_test.dart`（規則、樂團每個檔一樣長）、`art_test.dart`、`safety_test.dart`、`version_test.dart`、`toys_test.dart`（聲音開關、小鳥的第一下）、`flow_test.dart`（手機和平板、兩個難度、每個玩具，截圖 44 張）、`test/demo/demo_video_test.dart`。
 
 ## 目前的狀態（2026-11-15）
-- 0.1.0 做好、測試都過了，在本機 `claude/relaxed-albattani-6mbwpz` 分支 commit；GitHub 專案使用者還沒建，建好後再推（推 main 前要先問）。
+- 0.1.0 做好、測試都過了；GitHub 專案建好了，工作分支 `claude/relaxed-albattani-6mbwpz` 已推上去（GitHub 的 main 只有建專案時自動加的檔案，已經合併進工作分支，所以之後 main 可以直接快轉）。推 main 前要先問，Secrets 要先加。
 - 還沒在真手機上試過、沒用耳朵聽過聲音（垃圾車的〈少女的祈禱〉是憑記憶寫的，要聽聽看像不像）。soloud 的 Android 打包只能在 GitHub Actions 試。示範影片和截圖在 `app/build/`。
